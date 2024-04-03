@@ -2,17 +2,35 @@
 
 namespace App\Service;
 
+use App\Entity\Article;
+use App\Repository\ArticleRepositoryInterface;
+
 readonly class ArticlesService implements ArticlesServiceInterface
 {
+
+    public function __construct(
+        private ArticleRepositoryInterface $articleRepository,
+    )
+    {
+    }
 
     public function crawlArticles(ArticleCrawlerInterface $articleCrawler, string $url, int $maxArticlesToCrawl): array
     {
         return $articleCrawler->getArticles($maxArticlesToCrawl, $url);
     }
 
-    public function saveArticlesToDataBase(array $articles): void
+    /**
+     * @param Article[] $articles
+     */
+    public function saveArticlesToDataBase(array $articles): int
     {
-        // todo : check if articles already exist in the database
-        // todo : if not, save them
+        $savedArticles = 0;
+        foreach ($articles as $article) {
+            if(!$this->articleRepository->existsByGuid($article->getGuid())) {
+                $this->articleRepository->save($article);
+                $savedArticles++;
+            }
+        }
+        return $savedArticles;
     }
 }

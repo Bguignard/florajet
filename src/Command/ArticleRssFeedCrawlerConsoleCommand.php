@@ -48,7 +48,10 @@ class ArticleRssFeedCrawlerConsoleCommand extends Command
             strval(count($articles)) . ' articles found !',
             'Saving into database ...',
         ]);
-        $this->articlesService->saveArticlesToDataBase($articles);
+        $savedArticles = $this->articlesService->saveArticlesToDataBase($articles);
+        $output->writeln([
+            strval($savedArticles) . ' New articles saved !',
+        ]);
         $output->writeln([
             'Done !',
         ]);

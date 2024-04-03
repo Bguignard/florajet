@@ -17,43 +17,47 @@ class Article
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
-    private ?string $guid = null;
+    private ?string $guid;
 
     #[ORM\Column(type: 'string', enumType: SourceTypeEnum::class)]
-    private ?string $sourceType = null;
+    private SourceTypeEnum $sourceType;
 
     #[ORM\Column(length: 255)]
-    private ?string $sourceURL = null;
+    private string $sourceURL;
 
     #[ORM\Column(type: 'string', enumType: LanguageEnum::class)]
-    private ?string $language = null;
+    private LanguageEnum $language;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $publicationDate = null;
+    private \DateTimeInterface $publicationDate;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $permalink = null;
+    private ?string $permalink;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $mediaUrl = null;
+    private ?string $mediaUrl;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $MediaDescription = null;
+    private ?string $MediaDescription;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private string $title;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    private string $content;
 
     public function __construct(
-        string $sourceType,
+        SourceTypeEnum $sourceType,
         string $sourceURL,
-        string $language,
+        LanguageEnum $language,
         \DateTimeInterface $publicationDate,
         string $title,
         string $content,
         ?string $guid = null,
+        ?string $permalink = null,
+        ?string $mediaUrl = null,
+        ?string $MediaDescription = null,
+
     ) {
         $this->sourceType = $sourceType;
         $this->sourceURL = $sourceURL;
@@ -62,6 +66,9 @@ class Article
         $this->title = $title;
         $this->content = $content;
         $this->guid = $guid;
+        $this->permalink = $permalink;
+        $this->mediaUrl = $mediaUrl;
+        $this->MediaDescription = $MediaDescription;
     }
 
     public function getId(): ?int
@@ -69,27 +76,27 @@ class Article
         return $this->id;
     }
 
-    public function getSourceType(): ?string
+    public function getSourceType(): SourceTypeEnum
     {
         return $this->sourceType;
     }
 
-    public function getSourceURL(): ?string
+    public function getSourceURL(): string
     {
         return $this->sourceURL;
     }
 
-    public function getLanguage(): ?string
+    public function getLanguage(): LanguageEnum
     {
         return $this->language;
     }
 
-    public function getPublicationDate(): ?\DateTimeInterface
+    public function getPublicationDate(): \DateTimeInterface
     {
         return $this->publicationDate;
     }
 
-    public function getPermalink(): ?string
+    public function getPermalink(): string
     {
         return $this->permalink;
     }
@@ -99,12 +106,12 @@ class Article
         return $this->MediaDescription;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -113,4 +120,10 @@ class Article
     {
         return $this->guid;
     }
+
+    public function getMediaUrl(): ?string
+    {
+        return $this->mediaUrl;
+    }
+
 }

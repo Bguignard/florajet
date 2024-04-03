@@ -21,6 +21,21 @@ class ArticleRepository extends ServiceEntityRepository implements ArticleReposi
         parent::__construct($registry, Article::class);
     }
 
+    public function existsByGuid(string $guid): bool
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.guid = :guid')
+            ->setParameter('guid', $guid)
+            ->getQuery()
+            ->getOneOrNullResult() !== null;
+    }
+
+    public function save(Article $article): void
+    {
+        $this->getEntityManager()->persist($article);
+        $this->getEntityManager()->flush();
+    }
+
     //    /**
     //     * @return Article[] Returns an array of Article objects
     //     */
