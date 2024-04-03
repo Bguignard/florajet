@@ -16,6 +16,9 @@ class Article
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
+    private ?string $guid = null;
+
     #[ORM\Column(type: 'string', enumType: SourceTypeEnum::class)]
     private ?string $sourceType = null;
 
@@ -43,6 +46,24 @@ class Article
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
+    public function __construct(
+        string $sourceType,
+        string $sourceURL,
+        string $language,
+        \DateTimeInterface $publicationDate,
+        string $title,
+        string $content,
+        ?string $guid = null,
+    ) {
+        $this->sourceType = $sourceType;
+        $this->sourceURL = $sourceURL;
+        $this->language = $language;
+        $this->publicationDate = $publicationDate;
+        $this->title = $title;
+        $this->content = $content;
+        $this->guid = $guid;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,23 +74,9 @@ class Article
         return $this->sourceType;
     }
 
-    public function setSourceType(string $sourceType): static
-    {
-        $this->sourceType = $sourceType;
-
-        return $this;
-    }
-
     public function getSourceURL(): ?string
     {
         return $this->sourceURL;
-    }
-
-    public function setSourceURL(string $sourceURL): static
-    {
-        $this->sourceURL = $sourceURL;
-
-        return $this;
     }
 
     public function getLanguage(): ?string
@@ -77,23 +84,9 @@ class Article
         return $this->language;
     }
 
-    public function setLanguage(string $language): static
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
     public function getPublicationDate(): ?\DateTimeInterface
     {
         return $this->publicationDate;
-    }
-
-    public function setPublicationDate(\DateTimeInterface $publicationDate): static
-    {
-        $this->publicationDate = $publicationDate;
-
-        return $this;
     }
 
     public function getPermalink(): ?string
@@ -101,35 +94,9 @@ class Article
         return $this->permalink;
     }
 
-    public function setPermalink(?string $permalink): static
-    {
-        $this->permalink = $permalink;
-
-        return $this;
-    }
-
-    public function getMediaUrl(): ?string
-    {
-        return $this->mediaUrl;
-    }
-
-    public function setMediaUrl(?string $mediaUrl): static
-    {
-        $this->mediaUrl = $mediaUrl;
-
-        return $this;
-    }
-
     public function getMediaDescription(): ?string
     {
         return $this->MediaDescription;
-    }
-
-    public function setMediaDescription(?string $MediaDescription): static
-    {
-        $this->MediaDescription = $MediaDescription;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -137,22 +104,13 @@ class Article
         return $this->title;
     }
 
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
     public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): static
+    public function getGuid(): ?string
     {
-        $this->content = $content;
-
-        return $this;
+        return $this->guid;
     }
 }
