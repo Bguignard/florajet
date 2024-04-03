@@ -21,6 +21,7 @@ class RSSFeedArticleCrawler implements ArticleCrawlerInterface
             }
             $article = new Article(
                 SourceTypeEnum::RSS_FEED,
+                $item->chanel->title,
                 $url,
                 $language,
                 \DateTime::createFromFormat(\DateTimeInterface::RSS, $item->pubDate),
