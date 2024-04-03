@@ -22,6 +22,9 @@ class Article
     #[ORM\Column(type: 'string', enumType: SourceTypeEnum::class)]
     private SourceTypeEnum $sourceType;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $sourceName;
+
     #[ORM\Column(length: 255)]
     private string $sourceURL;
 
@@ -48,6 +51,7 @@ class Article
 
     public function __construct(
         SourceTypeEnum $sourceType,
+        string $sourceName,
         string $sourceURL,
         LanguageEnum $language,
         \DateTimeInterface $publicationDate,
@@ -60,6 +64,7 @@ class Article
 
     ) {
         $this->sourceType = $sourceType;
+        $this->sourceName = $sourceName;
         $this->sourceURL = $sourceURL;
         $this->language = $language;
         $this->publicationDate = $publicationDate;
@@ -124,6 +129,11 @@ class Article
     public function getMediaUrl(): ?string
     {
         return $this->mediaUrl;
+    }
+
+    public function getSourceName(): string
+    {
+        return $this->sourceName;
     }
 
 }

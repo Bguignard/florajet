@@ -6,33 +6,32 @@ use App\Entity\Article;
 use App\Entity\Enum\LanguageEnum;
 use App\Entity\Enum\SourceTypeEnum;
 
-class RSSFeedArticleCrawler implements ArticleCrawlerInterface
+class APIArticleCrawler implements ArticleCrawlerInterface
 {
 
     public function getArticles(int $maxArticlesToCrawl, string $url): array
     {
         $articles = [];
-        $rss = simplexml_load_file($url);
-        $language = LanguageEnum::from($rss->channel->language);
+        $language = LanguageEnum::EN;
 
-        foreach ($rss->channel->item as $item) {
+        foreach (json_decode(file_get_contents($url)) as $item) {
             if(count($articles) >= $maxArticlesToCrawl) {
                 break;
             }
             $article = new Article(
-                SourceTypeEnum::RSS_FEED,
-                $item->chanel->title,
+                SourceTypeEnum::EXTERNAL_API,
+                $item->newsSite,
                 $url,
                 $language,
-                \DateTime::createFromFormat(\DateTimeInterface::RSS, $item->pubDate),
+                new \DateTime($item->publishedAt), //2024-03-15T11:00:22.000Z
                 $item->title,
-                $item->description,
-                $item?->guid,
-                permalink: $item->link,
+                $item->summary,
+                $item->id?? null,
+                permalink: $item->url,
+                mediaUrl: $item->imageUrl,
             );
             $articles[] = $article;
         }
-
         return $articles;
     }
 }

@@ -27,3 +27,12 @@ Mise à disposition d’un affichage simple des articles
 · Optimiser les performances de la classe pour gérer efficacement de grandes quantités d'articles provenant de différentes sources.
 
 Merci de nous renvoyer le fichier/projet complété en précisant le temps que vous avez passé à réaliser le test ainsi que les tâches. 
+
+
+# How Crawlers work : 
+
+Use crawler command name --url --limitOfArticles
+
+For RSS crawling `run bin/console app:crawl-rss http://www.lemonde.fr/rss/une.xml 5`
+
+For API crawling, `run bin/console app:crawl-api https://api.spaceflightnewsapi.net/v3/articles 5`
