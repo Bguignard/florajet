@@ -16,108 +16,89 @@ class Article
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
+    private ?string $guid;
+
     #[ORM\Column(type: 'string', enumType: SourceTypeEnum::class)]
-    private ?string $sourceType = null;
+    private SourceTypeEnum $sourceType;
 
     #[ORM\Column(length: 255)]
-    private ?string $sourceURL = null;
+    private string $sourceURL;
 
     #[ORM\Column(type: 'string', enumType: LanguageEnum::class)]
-    private ?string $language = null;
+    private LanguageEnum $language;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $publicationDate = null;
+    private \DateTimeInterface $publicationDate;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $permalink = null;
+    private ?string $permalink;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $mediaUrl = null;
+    private ?string $mediaUrl;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $MediaDescription = null;
+    private ?string $MediaDescription;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private string $title;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    private string $content;
+
+    public function __construct(
+        SourceTypeEnum $sourceType,
+        string $sourceURL,
+        LanguageEnum $language,
+        \DateTimeInterface $publicationDate,
+        string $title,
+        string $content,
+        ?string $guid = null,
+        ?string $permalink = null,
+        ?string $mediaUrl = null,
+        ?string $MediaDescription = null,
+
+    ) {
+        $this->sourceType = $sourceType;
+        $this->sourceURL = $sourceURL;
+        $this->language = $language;
+        $this->publicationDate = $publicationDate;
+        $this->title = $title;
+        $this->content = $content;
+        $this->guid = $guid;
+        $this->permalink = $permalink;
+        $this->mediaUrl = $mediaUrl;
+        $this->MediaDescription = $MediaDescription;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSourceType(): ?string
+    public function getSourceType(): SourceTypeEnum
     {
         return $this->sourceType;
     }
 
-    public function setSourceType(string $sourceType): static
-    {
-        $this->sourceType = $sourceType;
-
-        return $this;
-    }
-
-    public function getSourceURL(): ?string
+    public function getSourceURL(): string
     {
         return $this->sourceURL;
     }
 
-    public function setSourceURL(string $sourceURL): static
-    {
-        $this->sourceURL = $sourceURL;
-
-        return $this;
-    }
-
-    public function getLanguage(): ?string
+    public function getLanguage(): LanguageEnum
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): static
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    public function getPublicationDate(): ?\DateTimeInterface
+    public function getPublicationDate(): \DateTimeInterface
     {
         return $this->publicationDate;
     }
 
-    public function setPublicationDate(\DateTimeInterface $publicationDate): static
-    {
-        $this->publicationDate = $publicationDate;
-
-        return $this;
-    }
-
-    public function getPermalink(): ?string
+    public function getPermalink(): string
     {
         return $this->permalink;
-    }
-
-    public function setPermalink(?string $permalink): static
-    {
-        $this->permalink = $permalink;
-
-        return $this;
-    }
-
-    public function getMediaUrl(): ?string
-    {
-        return $this->mediaUrl;
-    }
-
-    public function setMediaUrl(?string $mediaUrl): static
-    {
-        $this->mediaUrl = $mediaUrl;
-
-        return $this;
     }
 
     public function getMediaDescription(): ?string
@@ -125,34 +106,24 @@ class Article
         return $this->MediaDescription;
     }
 
-    public function setMediaDescription(?string $MediaDescription): static
-    {
-        $this->MediaDescription = $MediaDescription;
-
-        return $this;
-    }
-
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): static
+    public function getGuid(): ?string
     {
-        $this->content = $content;
-
-        return $this;
+        return $this->guid;
     }
+
+    public function getMediaUrl(): ?string
+    {
+        return $this->mediaUrl;
+    }
+
 }
