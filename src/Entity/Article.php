@@ -2,51 +2,75 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Enum\LanguageEnum;
 use App\Entity\Enum\SourceTypeEnum;
 use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'article:item']),
+        new GetCollection(normalizationContext: ['groups' => 'article:list'])
+        ],
+    order: ['publicationDate' => 'DESC'],
+    paginationEnabled: true,
+)]
 class Article
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['article:list', 'article:item'])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
+    #[Groups(['article:list', 'article:item'])]
     private ?string $guid;
 
     #[ORM\Column(type: 'string', enumType: SourceTypeEnum::class)]
+    #[Groups(['article:list', 'article:item'])]
     private SourceTypeEnum $sourceType;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['article:list', 'article:item'])]
     private string $sourceName;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article:list', 'article:item'])]
     private string $sourceURL;
 
     #[ORM\Column(type: 'string', enumType: LanguageEnum::class)]
+    #[Groups(['article:list', 'article:item'])]
     private LanguageEnum $language;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['article:list', 'article:item'])]
     private \DateTimeInterface $publicationDate;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['article:list', 'article:item'])]
     private ?string $permalink;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['article:list', 'article:item'])]
     private ?string $mediaUrl;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['article:list', 'article:item'])]
     private ?string $MediaDescription;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article:list', 'article:item'])]
     private string $title;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['article:list', 'article:item'])]
     private string $content;
 
     public function __construct(
