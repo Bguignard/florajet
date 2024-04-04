@@ -20,9 +20,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(normalizationContext: ['groups' => 'article:item']),
         new GetCollection(normalizationContext: ['groups' => 'article:list']),
-        new Put(),
-        new Delete(),
-        new Post(),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')"),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
         ],
     order: ['publicationDate' => 'DESC'],
     paginationEnabled: true,
