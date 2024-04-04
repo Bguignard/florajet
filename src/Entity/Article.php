@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Entity\Enum\LanguageEnum;
 use App\Entity\Enum\SourceTypeEnum;
 use App\Repository\ArticleRepository;
@@ -16,7 +19,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(normalizationContext: ['groups' => 'article:item']),
-        new GetCollection(normalizationContext: ['groups' => 'article:list'])
+        new GetCollection(normalizationContext: ['groups' => 'article:list']),
+        new Put(),
+        new Delete(),
+        new Post(),
         ],
     order: ['publicationDate' => 'DESC'],
     paginationEnabled: true,
@@ -160,4 +166,69 @@ class Article
         return $this->sourceName;
     }
 
+    public function setGuid(?string $guid): Article
+    {
+        $this->guid = $guid;
+        return $this;
+    }
+
+    public function setSourceType(SourceTypeEnum $sourceType): Article
+    {
+        $this->sourceType = $sourceType;
+        return $this;
+    }
+
+    public function setSourceName(string $sourceName): Article
+    {
+        $this->sourceName = $sourceName;
+        return $this;
+    }
+
+    public function setSourceURL(string $sourceURL): Article
+    {
+        $this->sourceURL = $sourceURL;
+        return $this;
+    }
+
+    public function setLanguage(LanguageEnum $language): Article
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    public function setPublicationDate(\DateTimeInterface $publicationDate): Article
+    {
+        $this->publicationDate = $publicationDate;
+        return $this;
+    }
+
+    public function setPermalink(?string $permalink): Article
+    {
+        $this->permalink = $permalink;
+        return $this;
+    }
+
+    public function setMediaUrl(?string $mediaUrl): Article
+    {
+        $this->mediaUrl = $mediaUrl;
+        return $this;
+    }
+
+    public function setMediaDescription(?string $MediaDescription): Article
+    {
+        $this->MediaDescription = $MediaDescription;
+        return $this;
+    }
+
+    public function setTitle(string $title): Article
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function setContent(string $content): Article
+    {
+        $this->content = $content;
+        return $this;
+    }
 }
