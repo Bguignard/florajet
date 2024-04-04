@@ -36,3 +36,9 @@ Use crawler command name --url --limitOfArticles
 For RSS crawling `run bin/console app:crawl-rss http://www.lemonde.fr/rss/une.xml 5`
 
 For API crawling, `run bin/console app:crawl-api https://api.spaceflightnewsapi.net/v3/articles 5`
+
+# Using API : 
+
+Go to /api to test all verbs without using any other program. You need to be authenticated to use POST, PUT and DELETE.
+
+Go to /api/articles or /api/articles/id to use GET without any authentication. You need to fill database with crawlers before being able to expose any data.
